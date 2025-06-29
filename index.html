@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Tyre Change Record Sheet</title>
+    <!-- Font Awesome for Icons (for print, copy, reset buttons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Body and Heading Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 28px; /* Slightly larger main heading */
+            margin-bottom: 25px;
+        }
+
+        /* Form Container Styles (CSS Grid for Layout) */
+        form {
+            background-color: #fff;
+            padding: 20px; /* Increased padding for the form container */
+            border-radius: 10px; /* Slightly more rounded corners */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+            max-width: 1400px; /* Increased max-width for 3-column layout */
+            margin: auto; /* Center the form */
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Default to 3 equal columns */
+            gap: 25px; /* Space between grid items (columns) */
+            grid-auto-rows: minmax(min-content, max-content); /* Rows adjust to content */
+            grid-auto-flow: row dense; /* Helps fill empty spaces */
+        }
+
+        /* Individual Form Section Styles */
+        .form-section {
+            padding: 20px; /* Increased padding inside each section */
+            border: 1px solid #ddd; /* Slightly darker border */
+            border-radius: 8px;
+            background-color: #fdfdfd; /* Slightly off-white background for sections */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Added subtle shadow for depth */
+            /* Ensure each section takes one column */
+            grid-column: span 1;
+        }
+        h3 {
+            margin-top: 0; /* Remove top margin for section headings */
+            color: #28a745; /* Green color for section headings */
+            font-size: 22px; /* Slightly larger section headings */
+            border-bottom: 2px solid #eee; /* Thicker subtle line below section titles */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Label and Input Styles */
+        label {
+            font-weight: bold;
+            margin-top: 12px; /* Increased margin above labels */
+            display: block;
+            font-size: 15px; /* Slightly larger font size for labels */
+            color: #555;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        input[type="file"],
+        select {
+            width: calc(100% - 16px); /* Adjusted width for better fit with padding */
+            padding: 10px; /* Increased padding for inputs */
+            margin: 6px 0 15px; /* Adjusted margins */
+            border: 1px solid #ccc;
+            border-radius: 5px; /* Slightly more rounded input corners */
+            box-sizing: border-box;
+            font-size: 15px; /* Slightly larger font size for inputs */
+        }
+        input[type="file"] {
+            padding: 5px; /* File input might look better with less padding */
+        }
+
+        /* Hidden Input for "Other" Option */
+        .hidden {
+            display: none;
+        }
+
+        /* Button Group Styles */
+        .button-group {
+            /* Explicitly place button group on the second row and span all columns */
+            grid-row: 2; /* Start on the second row */
+            grid-column: 1 / -1; /* Span across all columns */
+            width: 100%; /* Ensure it takes full width */
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 12px; /* Space between buttons */
+            margin-top: 25px; /* Space above the button group */
+        }
+        .print-button, .copy-text-button, .reset-button {
+            color: white;
+            padding: 12px 20px; /* Larger padding for buttons */
+            border: none;
+            border-radius: 6px; /* More rounded button corners */
+            cursor: pointer;
+            font-size: 17px; /* Larger font size for buttons */
+            width: 100%;
+            display: flex; /* Use flexbox for icon and text alignment */
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease; /* Smooth transition on hover */
+        }
+        .print-button {
+            background-color: #007bff; /* Blue color for print button */
+        }
+        .print-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .copy-text-button {
+            background-color: #28a745; /* Green color for copy text button */
+        }
+        .copy-text-button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        .reset-button {
+            background-color: #dc3545; /* Red color for reset button */
+        }
+        .reset-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+        .print-button i, .copy-text-button i, .reset-button i { /* Icon styling */
+            margin-right: 10px; /* More space between icon and text */
+            font-size: 18px;
+        }
+
+        /* Image Preview Styles */
+        .preview-container {
+            margin: 15px 0; /* Adjusted margin for preview containers */
+            border: 1px dashed #ccc; /* Dashed border for preview area */
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px; /* Minimum height for empty preview area */
+        }
+        .preview-container img {
+            max-width: 180px; /* Slightly larger image previews */
+            max-height: 130px;
+            border: 1px solid #ddd;
+            margin: 8px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .delete-photo-button {
+            background-color: #dc3545; /* Red */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.2s ease;
+        }
+        .delete-photo-button:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsive Adjustments for Different Screen Sizes */
+
+        /* For screens between 769px and 1399px (e.g., tablets in landscape, smaller desktops) */
+        @media (max-width: 1399px) {
+            form {
+                grid-template-columns: repeat(2, 1fr); /* Change to 2 columns */
+                max-width: 900px; /* Adjust max-width for 2 columns */
+                gap: 20px;
+            }
+            /* Make the button group span all 2 columns */
+            .button-group {
+                grid-column: 1 / -1;
+                grid-row: auto; /* Reset row placement for 2-column layout */
+            }
+        }
+
+        /* For screens up to 768px (e.g., mobile phones, tablets in portrait) */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px; /* Less padding on very small screens */
+            }
+            h2 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+            form {
+                grid-template-columns: 1fr; /* Change to 1 column */
+                max-width: 100%; /* Use full width on mobile */
+                padding: 15px;
+                gap: 0; /* Remove gap when stacked */
+                box-shadow: none; /* Remove shadow on mobile for cleaner look */
+            }
+            .form-section {
+                border: none; /* Remove border when stacked */
+                padding: 0;
+                background-color: transparent;
+                box-shadow: none; /* Remove shadow when stacked */
+                margin-bottom: 20px; /* Add space between sections */
+            }
+            .form-section:last-of-type {
+                margin-bottom: 0; /* No margin after the last section */
+            }
+            h3 {
+                font-size: 20px;
+                margin-bottom: 15px;
+                padding-bottom: 8px;
+            }
+            label {
+                font-size: 14px;
+                margin-top: 10px;
+            }
+            input[type="text"],
+            input[type="date"],
+            input[type="time"],
+            input[type="number"],
+            input[type="file"],
+            select {
+                padding: 8px;
+                font-size: 14px;
+                margin: 5px 0 10px;
+            }
+            .button-group {
+                grid-column: 1; /* Make the button group span the single column */
+                grid-row: auto; /* Reset row placement for 1-column layout */
+                margin-top: 15px;
+            }
+            .print-button, .copy-text-button, .reset-button {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+            .print-button i, .copy-text-button i, .reset-button i {
+                margin-right: 8px;
+                font-size: 16px;
+            }
+            .preview-container {
+                margin: 10px 0;
+                padding: 8px;
+            }
+            .preview-container img {
+                max-width: 150px;
+                max-height: 100px;
+                margin: 5px;
+            }
+        }
+
+        /* CSS for Print Layout (A4) */
+        @media print {
+            body {
+                background-color: #fff; /* White background for print */
+                margin: 0;
+                padding: 0;
+                font-size: 12pt; /* Base font size for print */
+            }
+            form {
+                box-shadow: none; /* Remove shadow for print */
+                max-width: 100%; /* Use full width for print */
+                margin: 0;
+                padding: 0;
+                border: none; /* Remove border for print */
+                display: block; /* Revert to block for print layout */
+            }
+            .form-section {
+                border: none; /* Remove section borders for print */
+                padding: 0;
+                margin-bottom: 15px; /* Add space between sections for print */
+                page-break-inside: avoid; /* Avoid breaking sections across pages */
+            }
+            h2 {
+                font-size: 20pt;
+                margin-bottom: 15px;
+            }
+            h3 {
+                font-size: 16pt;
+                color: #333; /* Change heading color to black for print */
+                border-bottom: 1px solid #ccc; /* Add a subtle line */
+                padding-bottom: 5px;
+                margin-top: 20px;
+            }
+            label {
+                font-size: 10pt;
+                margin-top: 5px;
+            }
+            input[type="text"],
+            input[type="date"],
+            input[type="time"],
+            input[type="number"],
+            select {
+                width: 100%; /* Ensure inputs take full width */
+                padding: 4px;
+                margin: 2px 0 5px;
+                border: 1px solid #eee; /* Lighter border for print */
+                font-size: 10pt;
+            }
+            /* Hide file input and all buttons in print view */
+            input[type="file"],
+            .button-group, /* Hide the entire button group */
+            .delete-photo-button {
+                display: none;
+            }
+            /* Ensure image previews are visible and sized appropriately */
+            .preview-container img {
+                max-width: 150px; /* Smaller images for print */
+                max-height: 100px;
+                border: 1px solid #ddd;
+                margin: 5px;
+            }
+            /* Add some spacing for sections */
+            .section-break {
+                page-break-before: always; /* Start new section on a new page if needed */
+            }
+            /* Adjust margins for A4 paper */
+            @page {
+                size: A4;
+                margin: 1cm; /* Adjust margins as needed */
+            }
+        }
+    </style>
+    <script>
+        // --- Helper Functions ---
+
+        /**
+         * Toggles the visibility and required attribute of a custom input field
+         * based on the selected value of a dropdown.
+         * @param {HTMLSelectElement} selectElement - The dropdown element.
+         * @param {string} inputFieldId - The ID of the custom input field.
+         */
+        function toggleInputField(selectElement, inputFieldId) {
+            const inputField = document.getElementById(inputFieldId);
+            if (selectElement.value === "Other") {
+                inputField.classList.remove("hidden");
+                inputField.setAttribute('required', 'required');
+                inputField.focus();
+            } else {
+                inputField.classList.add("hidden");
+                inputField.removeAttribute('required');
+                inputField.value = "";
+            }
+            saveFormDataToLocalStorage(); // Save changes to localStorage
+        }
+
+        /**
+         * Displays a preview of the selected image and adds a delete button.
+         * @param {HTMLInputElement} input - The file input element.
+         * @param {string} previewId - The ID of the div to display the preview.
+         */
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = ''; // Clear previous preview
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '200px';
+                    img.style.maxHeight = '150px';
+                    img.classList.add('preview-image');
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Hapus Foto';
+                    deleteButton.type = 'button';
+                    deleteButton.classList.add('delete-photo-button'); // Add class for print hiding
+                    deleteButton.style.marginLeft = '10px';
+                    deleteButton.style.padding = '5px 10px';
+                    deleteButton.style.backgroundColor = '#dc3545'; // Red
+                    deleteButton.style.color = 'white';
+                    deleteButton.style.border = 'none';
+                    deleteButton.style.borderRadius = '4px';
+                    deleteButton.style.cursor = 'pointer';
+
+                    deleteButton.onclick = function() {
+                        preview.innerHTML = '';
+                        input.value = ''; // Clear the file input
+                        saveFormDataToLocalStorage(); // Update localStorage
+                    };
+
+                    const container = document.createElement('div');
+                    container.style.display = 'flex';
+                    container.style.alignItems = 'center';
+                    container.style.marginTop = '5px';
+                    container.appendChild(img);
+                    container.appendChild(deleteButton);
+                    preview.appendChild(container);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+            saveFormDataToLocalStorage(); // Save changes to localStorage
+        }
+
+        /**
+         * Calculates the Tyre Utilization Rate (TUR) based on OTD and RTD values.
+         * @param {string} otdId - The name attribute of the OTD input.
+         * @param {string} rtd1Id - The name attribute of the RTD1 input.
+         * @param {string} rtd2Id - The name attribute of the RTD2 input.
+         * @param {string} turId - The name attribute of the TUR output input.
+         */
+        function calculateTUR(otdId, rtd1Id, rtd2Id, turId) {
+            const otdInput = document.querySelector(`input[name="${otdId}"]`);
+            const rtd1Input = document.querySelector(`input[name="${rtd1Id}"]`);
+            const rtd2Input = document.querySelector(`input[name="${rtd2Id}"]`);
+            const turOutput = document.querySelector(`input[name="${turId}"]`);
+
+            const otd = parseFloat(otdInput.value);
+            const rtd1 = parseFloat(rtd1Input.value);
+            const rtd2 = parseFloat(rtd2Input.value);
+
+            if (!isNaN(otd) && !isNaN(rtd1) && !isNaN(rtd2) && otd !== 0) {
+                const avgRtd = (rtd1 + rtd2) / 2;
+                const tur = ((otd - avgRtd) / otd) * 100;
+                turOutput.value = tur.toFixed(2) + "%";
+            } else {
+                turOutput.value = "";
+            }
+            // No saveFormDataToLocalStorage here to prevent infinite loop with input event listeners
+        }
+
+        /**
+         * Calculates the total breakdown time between two time inputs.
+         * @param {string} startTimeName - The name attribute of the start time input.
+         * @param {string} endTimeName - The name attribute of the end time input.
+         * @param {string} outputFieldName - The name attribute of the output field for breakdown time.
+         */
+        function calculateBreakdownTime(startTimeName, endTimeName, outputFieldName) {
+            const startTimeInput = document.querySelector(`input[name="${startTimeName}"]`);
+            const endTimeInput = document.querySelector(`input[name="${endTimeName}"]`);
+            const outputField = document.querySelector(`input[name="${outputFieldName}"]`);
+
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
+
+            if (startTime && endTime) {
+                const [startHour, startMinute] = startTime.split(':').map(Number);
+                const [endHour, endMinute] = endTime.split(':').map(Number);
+
+                // Create dummy Date objects for calculation (date part doesn't matter, only time)
+                const startDate = new Date();
+                startDate.setHours(startHour, startMinute, 0, 0);
+
+                const endDate = new Date();
+                endDate.setHours(endHour, endMinute, 0, 0);
+
+                // Handle overnight cases (if end time is earlier than start time, assume next day)
+                if (endDate < startDate) {
+                    endDate.setDate(endDate.getDate() + 1);
+                }
+
+                const diffMs = endDate - startDate; // Difference in milliseconds
+                const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+                const hours = Math.floor(diffMinutes / 60);
+                const minutes = diffMinutes % 60;
+
+                outputField.value = `${hours} jam ${minutes} menit`;
+            } else {
+                outputField.value = "";
+            }
+            // No saveFormDataToLocalStorage here to prevent infinite loop with input event listeners
+        }
+
+        // --- Form Validation and Actions ---
+
+        /**
+         * Validates the form inputs before printing or submitting.
+         * @returns {boolean} - True if the form is valid, false otherwise.
+         */
+        function validateForm() {
+            const form = document.getElementById('tyreChangeForm');
+            if (!form.checkValidity()) {
+                alert("Mohon lengkapi semua bidang yang wajib diisi.");
+                // Trigger native browser validation messages
+                form.reportValidity();
+                return false;
+            }
+
+            // Custom validation for OTD not being zero if RTD is filled
+            const otdRemoved = parseFloat(document.querySelector('input[name="tyre_size_removed_otd"]').value);
+            const rtd1Removed = parseFloat(document.querySelector('input[name="rtd1_removed"]').value);
+            const rtd2Removed = parseFloat(document.querySelector('input[name="rtd2_removed"]').value);
+
+            if ((!isNaN(rtd1Removed) || !isNaN(rtd2Removed)) && (isNaN(otdRemoved) || otdRemoved === 0)) {
+                alert("OTD (Original Tread Depth) untuk Removed Tyre tidak boleh kosong atau nol jika RTD diisi.");
+                document.querySelector('input[name="tyre_size_removed_otd"]').focus();
+                return false;
+            }
+
+            const otdInstalled = parseFloat(document.querySelector('input[name="otd"]').value);
+            const rtd1Installed = parseFloat(document.querySelector('input[name="rtd1_installed"]').value);
+            const rtd2Installed = parseFloat(document.querySelector('input[name="rtd2_installed"]').value);
+
+            if ((!isNaN(rtd1Installed) || !isNaN(rtd2Installed)) && (isNaN(otdInstalled) || otdInstalled === 0)) {
+                alert("OTD (Tread Depth) untuk Installed Tyre tidak boleh kosong atau nol jika RTD diisi.");
+                document.querySelector('input[name="otd"]').focus();
+                return false;
+            }
+
+            // Validation for "Other" custom inputs
+            const customBrandRemoved = document.getElementById('custom_brand');
+            if (!customBrandRemoved.classList.contains('hidden') && customBrandRemoved.value.trim() === '') {
+                alert("Mohon isi nama brand kustom untuk Removed Tyre.");
+                customBrandRemoved.focus();
+                return false;
+            }
+            const customPatternRemoved = document.getElementById('custom_pattern');
+            if (!customPatternRemoved.classList.contains('hidden') && customPatternRemoved.value.trim() === '') {
+                alert("Mohon isi nama pattern kustom untuk Removed Tyre.");
+                customPatternRemoved.focus();
+                return false;
+            }
+            const customBrandInstalled = document.getElementById('custom_brand_installed');
+            if (!customBrandInstalled.classList.contains('hidden') && customBrandInstalled.value.trim() === '') {
+                alert("Mohon isi nama brand kustom untuk Installed Tyre.");
+                customBrandInstalled.focus();
+                return false;
+            }
+            const customPatternInstalled = document.getElementById('custom_pattern_installed');
+            if (!customPatternInstalled.classList.contains('hidden') && customPatternInstalled.value.trim() === '') {
+                alert("Mohon isi nama pattern kustom untuk Installed Tyre.");
+                customPatternInstalled.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+         * Triggers the print dialog after form validation and user confirmation.
+         */
+        function printForm() {
+            if (!validateForm()) {
+                return;
+            }
+
+            if (confirm("Apakah Anda yakin ingin mencetak formulir ini? Pastikan semua data sudah terisi dengan benar.")) {
+                window.print();
+            }
+        }
+
+        /**
+         * Generates a plain text summary of the form data and copies it to clipboard.
+         * Includes a fallback mechanism for older browsers or restricted environments.
+         */
+        function copyFormAsPlainText() {
+            if (!validateForm()) {
+                return;
+            }
+
+            const form = document.getElementById('tyreChangeForm');
+            let textSummary = "Daily Tyre Change Record Sheet\n\n";
+
+            // General Information
+            textSummary += "--- Informasi Umum ---\n";
+            textSummary += `TCR No: ${form.elements['tcr_no'].value}\n`;
+            textSummary += `Tanggal: ${form.elements['tanggal'].value}\n`;
+            textSummary += `Nomer Kendaraan: ${form.elements['nomer_kendaraan'].value}\n`;
+            textSummary += `MLS/KMS/HRS: ${form.elements['mls'].value}\n`;
+            textSummary += `Lokasi: ${form.elements['lokasi'].value}\n`;
+            textSummary += `Masuk - Jam: ${form.elements['masuk_jam'].value}\n`;
+            textSummary += `Dikerjakan - Jam: ${form.elements['dikerjakan_jam'].value}\n`;
+            textSummary += `Keluar - Jam: ${form.elements['keluar_jam'].value}\n`;
+            textSummary += `Total Waktu Breakdown: ${form.elements['total_breakdown_time'].value}\n\n`; // Added breakdown time
+
+            // Removed Tyre
+            textSummary += "--- Removed Tyre ---\n";
+            textSummary += `Tyre Position: ${form.elements['pos_removed'].value}\n`;
+            textSummary += `Serial Number Tyre: ${form.elements['serial_removed'].value}\n`;
+            textSummary += `Tyre Size: ${form.elements['tyre_size_removed'].value}\n`;
+            let brandRemoved = form.elements['brand_removed'].value;
+            if (brandRemoved === "Other") {
+                brandRemoved = document.getElementById('custom_brand').value;
+            }
+            textSummary += `Brand/Manufacture: ${brandRemoved}\n`;
+            let patternRemoved = form.elements['pattern_removed'].value;
+            if (patternRemoved === "Other") {
+                patternRemoved = document.getElementById('custom_pattern').value;
+            }
+            textSummary += `Pattern: ${patternRemoved}\n`;
+            textSummary += `OTD (Original Tread Depth): ${form.elements['tyre_size_removed_otd'].value} mm\n`;
+            textSummary += `RTD 1: ${form.elements['rtd1_removed'].value} mm\n`;
+            textSummary += `RTD 2: ${form.elements['rtd2_removed'].value} mm\n`;
+            textSummary += `TUR: ${form.elements['tur_removed'].value}\n`;
+            textSummary += `Reason Removal: ${form.elements['reason_removal'].value}\n`;
+            textSummary += `Status Tyre: ${form.elements['status_tyre_removed'].value}\n\n`;
+
+            // Installed Tyre
+            textSummary += "--- Installed Tyre ---\n";
+            textSummary += `Tyre Position: ${form.elements['pos_installed'].value}\n`;
+            textSummary += `Serial Number Tyre: ${form.elements['serial_installed'].value}\n`;
+            textSummary += `Tyre Size: ${form.elements['tyre_size_installed'].value}\n`;
+            let brandInstalled = form.elements['brand_installed'].value;
+            if (brandInstalled === "Other") {
+                brandInstalled = document.getElementById('custom_brand_installed').value;
+            }
+            textSummary += `Brand/Manufacture: ${brandInstalled}\n`;
+            let patternInstalled = form.elements['pattern_installed'].value;
+            if (patternInstalled === "Other") {
+                patternInstalled = document.getElementById('custom_pattern_installed').value;
+            }
+            textSummary += `Pattern: ${patternInstalled}\n`;
+            textSummary += `Status Tyre: ${form.elements['status_tyre_installed'].value}\n`;
+            textSummary += `HM Tyre: ${form.elements['hm_tyre'].value}\n`;
+            textSummary += `Air Pressure: ${form.elements['air_pressure'].value} Psi\n`;
+            textSummary += `OTD (Tread Depth): ${form.elements['otd'].value} mm\n`;
+            textSummary += `RTD 1: ${form.elements['rtd1_installed'].value} mm\n`;
+            textSummary += `RTD 2: ${form.elements['rtd2_installed'].value} mm\n`;
+            textSummary += `TUR: ${form.elements['tur_installed'].value}\n\n`;
+
+            // Try to copy using modern Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textSummary)
+                    .then(() => {
+                        alert("Data formulir berhasil disalin ke clipboard!");
+                    })
+                    .catch(err => {
+                        console.error('Gagal menyalin teks dengan Clipboard API: ', err);
+                        // Fallback if modern API fails (e.g., due to permissions)
+                        fallbackCopyToClipboard(textSummary);
+                    });
+            } else {
+                // Fallback for older browsers or environments without Clipboard API
+                fallbackCopyToClipboard(textSummary);
+            }
+        }
+
+        /**
+         * Fallback function to copy text to clipboard using a temporary textarea.
+         * @param {string} text - The text to copy.
+         */
+        function fallbackCopyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in MS Edge.
+            textarea.style.opacity = 0; // Hide the textarea
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert("Data formulir berhasil disalin ke clipboard! (Metode Fallback)");
+                } else {
+                    throw new Error('document.execCommand("copy") failed');
+                }
+            } catch (err) {
+                console.error('Gagal menyalin teks dengan fallback: ', err);
+                alert("Gagal menyalin data formulir. Silakan salin manual:\n\n" + text);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+
+        /**
+         * Saves the current form data to localStorage.
+         */
+        function saveFormDataToLocalStorage() {
+            const form = document.getElementById('tyreChangeForm');
+            const formData = {};
+
+            for (const element of form.elements) {
+                if (element.name) {
+                    if (element.type === 'file') {
+                        // For file inputs, we only store a placeholder string, not the file data itself.
+                        // The actual file data cannot be stored in localStorage directly.
+                        if (element.files.length > 0) {
+                            formData[element.name] = `File selected: ${element.files[0].name}`;
+                        } else {
+                            formData[element.name] = '';
+                        }
+                    } else if (element.type === 'radio' || element.type === 'checkbox') {
+                        formData[element.name] = element.checked;
+                    } else {
+                        formData[element.name] = element.value;
+                    }
+                }
+            }
+            try {
+                localStorage.setItem('tyreChangeFormData', JSON.stringify(formData));
+                console.log("Form data saved to localStorage.");
+            } catch (e) {
+                console.error("Error saving to localStorage:", e);
+                alert("Terjadi kesalahan saat menyimpan data secara otomatis. Pastikan browser Anda mengizinkan penyimpanan lokal.");
+            }
+        }
+
+        /**
+         * Loads saved form data from localStorage when the page loads.
+         */
+        function loadFormDataFromLocalStorage() {
+            try {
+                const savedData = localStorage.getItem('tyreChangeFormData');
+                if (savedData) {
+                    const formData = JSON.parse(savedData);
+                    const form = document.getElementById('tyreChangeForm');
+
+                    for (const name in formData) {
+                        const element = form.elements[name];
+                        if (element) {
+                            if (element.type === 'file') {
+                                // File inputs cannot be programmatically set from localStorage.
+                                // We can't restore the actual file, only the filename if needed.
+                            } else if (element.type === 'radio' || element.type === 'checkbox') {
+                                element.checked = formData[name];
+                            } else {
+                                element.value = formData[name];
+                            }
+                        }
+                    }
+                    console.log("Form data loaded from localStorage.");
+
+                    // Re-trigger UI updates for "Other" fields and TUR calculations
+                    // These calls are crucial to re-evaluate the state of the form after loading.
+                    const brandRemovedSelect = document.getElementById('brand_removed');
+                    if (brandRemovedSelect) toggleInputField(brandRemovedSelect, 'custom_brand');
+                    const patternRemovedSelect = document.getElementById('pattern_removed');
+                    if (patternRemovedSelect) toggleInputField(patternRemovedSelect, 'custom_pattern');
+                    const brandInstalledSelect = document.getElementById('brand_installed');
+                    if (brandInstalledSelect) toggleInputField(brandInstalledSelect, 'custom_brand_installed');
+                    const patternInstalledSelect = document.getElementById('pattern_installed');
+                    if (patternInstalledSelect) toggleInputField(patternInstalledSelect, 'custom_pattern_installed');
+
+                    // Re-calculate TUR values after loading data
+                    calculateTUR('tyre_size_removed_otd', 'rtd1_removed', 'rtd2_removed', 'tur_removed');
+                    calculateTUR('otd', 'rtd1_installed', 'rtd2_installed', 'tur_installed');
+                    // Re-calculate breakdown time after loading data
+                    calculateBreakdownTime('dikerjakan_jam', 'keluar_jam', 'total_breakdown_time');
+                }
+            } catch (e) {
+                console.error("Error loading from localStorage or parsing data:", e);
+                alert("Terjadi kesalahan saat memuat data tersimpan. Data mungkin rusak atau tidak valid.");
+                localStorage.removeItem('tyreChangeFormData'); // Clear corrupted data
+            }
+        }
+
+        /**
+         * Resets the form and clears saved data from localStorage.
+         */
+        function resetForm() {
+            if (confirm("Apakah Anda yakin ingin mereset formulir? Semua data yang belum dicetak/disimpan akan hilang.")) {
+                const form = document.getElementById('tyreChangeForm');
+                form.reset();
+                localStorage.removeItem('tyreChangeFormData');
+                console.log("Form reset and data cleared from localStorage.");
+
+                // Manually reset UI elements not handled by form.reset()
+                document.getElementById('custom_brand').classList.add('hidden');
+                document.getElementById('custom_brand').removeAttribute('required');
+                document.getElementById('custom_brand').value = '';
+
+                document.getElementById('custom_pattern').classList.add('hidden');
+                document.getElementById('custom_pattern').removeAttribute('required');
+                document.getElementById('custom_pattern').value = '';
+
+                document.getElementById('custom_brand_installed').classList.add('hidden');
+                document.getElementById('custom_brand_installed').removeAttribute('required');
+                document.getElementById('custom_brand_installed').value = '';
+
+                document.getElementById('custom_pattern_installed').classList.add('hidden');
+                document.getElementById('custom_pattern_installed').removeAttribute('required');
+                document.getElementById('custom_pattern_installed').value = '';
+
+                document.getElementById('preview1').innerHTML = '';
+                document.getElementById('preview2').innerHTML = '';
+                document.getElementById('preview3').innerHTML = '';
+                document.getElementById('preview_installed_1').innerHTML = '';
+                document.getElementById('preview_installed_2').innerHTML = '';
+                document.getElementById('preview_installed_3').innerHTML = '';
+            }
+        }
+
+        // --- Event Listeners ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFormDataFromLocalStorage();
+
+            // Event listeners for TUR calculation (Removed Tyre)
+            document.querySelector('input[name="rtd1_removed"]').addEventListener('input', () => {
+                calculateTUR('tyre_size_removed_otd', 'rtd1_removed', 'rtd2_removed', 'tur_removed');
+            });
+            document.querySelector('input[name="rtd2_removed"]').addEventListener('input', () => {
+                calculateTUR('tyre_size_removed_otd', 'rtd1_removed', 'rtd2_removed', 'tur_removed');
+            });
+            document.querySelector('input[name="tyre_size_removed_otd"]').addEventListener('input', () => {
+                calculateTUR('tyre_size_removed_otd', 'rtd1_removed', 'rtd2_removed', 'tur_removed');
+            });
+
+            // Event listeners for TUR calculation (Installed Tyre)
+            document.querySelector('input[name="otd"]').addEventListener('input', () => {
+                calculateTUR('otd', 'rtd1_installed', 'rtd2_installed', 'tur_installed');
+            });
+            document.querySelector('input[name="rtd1_installed"]').addEventListener('input', () => {
+                calculateTUR('otd', 'rtd1_installed', 'rtd2_installed', 'tur_installed');
+            });
+            document.querySelector('input[name="rtd2_installed"]').addEventListener('input', () => {
+                calculateTUR('otd', 'rtd1_installed', 'rtd2_installed', 'tur_installed');
+            });
+
+            // Event listeners for Breakdown Time calculation
+            document.querySelector('input[name="dikerjakan_jam"]').addEventListener('input', () => {
+                calculateBreakdownTime('dikerjakan_jam', 'keluar_jam', 'total_breakdown_time');
+            });
+            document.querySelector('input[name="keluar_jam"]').addEventListener('input', () => {
+                calculateBreakdownTime('dikerjakan_jam', 'keluar_jam', 'total_breakdown_time');
+            });
+
+            // Event listener to save form data to localStorage on any input/change
+            const form = document.getElementById('tyreChangeForm');
+            form.addEventListener('input', saveFormDataToLocalStorage);
+            form.addEventListener('change', saveFormDataToLocalStorage);
+        });
+    </script>
+</head>
+<body>
+    <h2>Daily Tyre Change Record Sheet / Daftar Harian Penggantian Ban</h2>
+    <form id="tyreChangeForm">
+        <div class="form-section">
+            <h3>Informasi Umum</h3>
+            <label>TCR No:</label>
+            <input type="text" name="tcr_no" required />
+            <label>Tanggal:</label>
+            <input type="date" name="tanggal" required />
+            <label>Nomer Kendaraan:</label>
+            <select name="nomer_kendaraan" required>
+                <option value="">-- Pilih Nomer Kendaraan --</option>
+                <option value="DSBL-001">DSBL-001</option>
+                <option value="DSBL-002">DSBL-002</option>
+                <option value="DSBL-003">DSBL-003</option>
+                <option value="DSBL-004">DSBL-004</option>
+                <option value="DSBL-005">DSBL-005</option>
+                <option value="DSBL-006">DSBL-006</option>
+                <option value="DSBL-007">DSBL-007</option>
+                <option value="DSBL-008">DSBL-008</option>
+                <option value="DSBL-009">DSBL-009</option>
+                <option value="DSBL-010">DSBL-010</option>
+                <option value="DSBL-011">DSBL-011</option>
+                <option value="DSBL-012">DSBL-012</option>
+                <option value="DSBL-013">DSBL-013</option>
+                <option value="DSBL-014">DSBL-014</option>
+                <option value="DSBL-015">DSBL-015</option>
+                <option value="DSBL-016">DSBL-016</option>
+                <option value="DSBL-017">DSBL-017</option>
+                <option value="DSBL-018">DSBL-018</option>
+                <option value="DSBL-019">DSBL-019</option>
+                <option value="DSBL-020">DSBL-020</option>
+                <option value="DSBL-021">DSBL-021</option>
+                <option value="DSBL-022">DSBL-022</option>
+                <option value="DSBL-023">DSBL-023</option>
+                <option value="DSBL-024">DSBL-024</option>
+                <option value="DSBL-025">DSBL-025</option>
+                <option value="DSBL-026">DSBL-026</option>
+                <option value="DSBL-027">DSBL-027</option>
+                <option value="DSBL-028">DSBL-028</option>
+                <option value="DSBL-029">DSBL-029</option>
+                <option value="DSBL-030">DSBL-030</option>
+                <option value="DSBL-031">DSBL-031</option>
+                <option value="DSBL-032">DSBL-032</option>
+                <option value="DSBL-033">DSBL-033</option>
+                <option value="DSBL-034">DSBL-034</option>
+                <option value="DSBL-035">DSBL-035</option>
+                <option value="DSBL-036">DSBL-036</option>
+                <option value="DSBL-037">DSBL-037</option>
+                <option value="DSBL-038">DSBL-038</option>
+                <option value="DSBL-039">DSBL-039</option>
+                <option value="DSBL-040">DSBL-040</option>
+                <option value="TRB-501">TRB-501</option>
+                <option value="TRB-503">TRB-503</option>
+                <option value="TRB-505">TRB-505</option>
+                <option value="TRB-506">TRB-506</option>
+                <option value="TRB-509">TRB-509</option>
+                <option value="TRB-510">TRB-510</option>
+                <option value="TRB-513">TRB-513</option>
+                <option value="TRB-514">TRB-514</option>
+                <option value="TRB-515">TRB-515</option>
+                <option value="TRB-516">TRB-516</option>
+                <option value="DTHN-2312">DTHN-2312</option>
+                <option value="DTHN-2313">DTHN-2313</option>
+                <option value="DTHN-2315">DTHN-2315</option>
+                <option value="DTHN-2316">DTHN-2316</option>
+                <option value="DTHN-2317">DTHN-2317</option>
+                <option value="DTHN-2318">DTHN-2318</option>
+                <option value="DTHN-2319">DTHN-2319</option>
+                <option value="DTHN-2320">DTHN-2320</option>
+                <option value="DTHN-2321">DTHN-2321</option>
+                <option value="MG-01">MG-01</option>
+                <option value="MG-02">MG-02</option>
+                <option value="CP-01">CP-01</option>
+                <option value="WL-001">WL-001</option>
+                <option value="CT-01">CT-01</option>
+                <option value="WT-06">WT-06</option>
+                <option value="FT-01">FT-01</option>
+            </select>
+            <label>MLS/KMS/HRS:</label>
+            <input type="text" name="mls" required />
+            <label>Lokasi:</label>
+            <select name="lokasi" required>
+                <option value="">-- Pilih Lokasi --</option>
+                <option value="PIT BANTAIAN">PIT BANTAIAN</option>
+                <option value="PIT BARAT">PIT BARAT</option>
+                <option value="WORKSHOP">WORKSHOP</option>
+                <option value="STOCKROOM BL">STOCKROOM BL</option>
+                <option value="STOCK ROOM BJ">STOCK ROOM BJ</option>
+                <option value="PARKIRAN BARU">PARKIRAN BARU</option>
+                <option value="DISPOSAL">DISPOSAL</option>
+                <option value="OFFICE">OFFICE</option>
+                <option value="JALAN DUMP">JALAN DUMP</option>
+            </select>
+            <label>Masuk - Jam:</label>
+            <input type="time" name="masuk_jam" required />
+            <label>Dikerjakan - Jam:</label>
+            <input type="time" name="dikerjakan_jam" required />
+            <label>Keluar - Jam:</label>
+            <input type="time" name="keluar_jam" required />
+            <!-- New field for Total Waktu Breakdown -->
+            <label>Total Waktu Breakdown:</label>
+            <input type="text" name="total_breakdown_time" readonly />
+        </div>
+
+        <div class="form-section">
+            <h3>Removed Tyre</h3>
+            <label>Tyre Position:</label>
+            <select name="pos_removed" required>
+                <option value="">-- Pilih Tyre Position --</option>
+                <option value="POS 1">POS 1</option>
+                <option value="POS 2">POS 2</option>
+                <option value="POS 3">POS 3</option>
+                <option value="POS 4">POS 4</option>
+                <option value="POS 5">POS 5</option>
+                <option value="POS 6">POS 6</option>
+                <option value="POS 7">POS 7</option>
+                <option value="POS 8">POS 8</option>
+                <option value="POS 9">POS 9</option>
+                <option value="POS 10">POS 10</option>
+            </select>
+            <label>Serial Number Tyre:</label>
+            <input type="text" name="serial_removed" required />
+            <label>Tyre Size:</label>
+            <select name="tyre_size_removed" required>
+                <option value="">-- Pilih Tyre Size --</option>
+                <option value="10.00R20">10.00R20</option>
+                <option value="11.00R20">11.00R20</option>
+                <option value="11.00-20">11.00-20</option>
+                <option value="12.00R24">12.00R24</option>
+                <option value="12.00-24">12.00-24</option>
+                <option value="14.00R25">14.00R25</option>
+                <option value="16.00R25">16.00R25</option>
+                <option value="17.5-25">17.5-25</option>
+                <option value="23.1-26">23.1-26</option>
+                <option value="23.5-25">23.5-25</option>
+                <option value="21.00-35">21.00-35</option>
+            </select>
+            
+            <label>Brand/Manufacture:</label>
+            <select name="brand_removed" id="brand_removed" onchange="toggleInputField(this, 'custom_brand')" required>
+                <option value="">-- Pilih Brand/Manufacture --</option>
+                <option value="TECHKING">TECHKING</option>
+                <option value="MAXAM">MAXAM</option>
+                <option value="BELSHINA">BELSHINA</option>
+                <option value="CHAO YANG">CHAO YANG</option>
+                <option value="HILO">HILO</option>
+                <option value="GAJAH TUNGGAL">GAJAH TUNGGAL</option>
+                <option value="ASCENDO">ASCENDO</option>
+                <option value="KUN LUN">KUN LUN</option>
+                <option value="COPARTNER">COPARTNER</option>
+                <option value="BRIDGESTONE">BRIDGESTONE</option>
+                <option value="MAXIMA">MAXIMA</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" id="custom_brand" class="hidden" placeholder="Input custom brand" />
+            <label>Pattern:</label>
+            <select name="pattern_removed" id="pattern_removed" onchange="toggleInputField(this, 'custom_pattern')" required>
+                <option value="">-- Pilih Pattern --</option>
+                <option value="SUPER ETOT">SUPER ETOT</option>
+                <option value="ET 919">ET 919</option>
+                <option value="MS308">MS308</option>
+                <option value="Бел-51М">Бел-51М</option>
+                <option value="TK 619">TK 619</option>
+                <option value="ETOH">ETOH</option>
+                <option value="CB716">CB716</option>
+                <option value="B01N">B01N</option>
+                <option value="GT SUPER TRACTION">GT SUPER TRACTION</option>
+                <option value="AE 803">AE 803</option>
+                <option value="KUN LUN">KUN LUN</option>
+                <option value="AR 585">AR 585</option>
+                <option value="ETFN">ETFN</option>
+                <option value="ETRF">ETRF</option>
+                <option value="CP776">CP776</option>
+                <option value="E Miller Super">E Miller Super</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" id="custom_pattern" class="hidden" placeholder="Input custom pattern" />
+            <!-- Moved OTD for Removed Tyre here -->
+            <label>OTD (Original Tread Depth) for Removed Tyre:</label>
+            <input type="number" name="tyre_size_removed_otd" step="0.1" required />
+
+            <label>RTD 1 (mm):</label>
+            <input type="number" name="rtd1_removed" step="0.1" required />
+            <label>RTD 2 (mm):</label>
+            <input type="number" name="rtd2_removed" step="0.1" required />
+            <label>TUR (Removed Tyre):</label>
+            <input type="text" name="tur_removed" readonly /> <!-- Readonly to show calculated value -->
+            <label>Reason Removal:</label>
+            <select name="reason_removal" required>
+                <option value="">-- Pilih Reason Removal --</option>
+                <option value="WORN OUT">WORN OUT</option>
+                <option value="TREAD CHIPPING">TREAD CHIPPING</option>
+                <option value="IMPACT">IMPACT</option>
+                <option value="TREAD CUT">TREAD CUT</option>
+                <option value="ACCIDENTAL DAMAGE">ACCIDENTAL DAMAGE</option>
+                <option value="SHOULDER CUT">SHOULDER CUT</option>
+                <option value="SIDEWALL CUT">SIDEWALL CUT</option>
+                <option value="FOREIGN OBJECT">FOREIGN OBJECT</option>
+                <option value="BEAD FATIGUE">BEAD FATIGUE</option>
+                <option value="ROCK BETWEEN DUAL">ROCK BETWEEN DUAL</option>
+                <option value="REPAIR FAILURE">REPAIR FAILURE</option>
+                <option value="MATCHING">MATCHING</option>
+                <option value="BROKEN RIM">BROKEN RIM</option>
+                <option value="LINER/TUBE/RUST TyreD FAILURE">LINER/TUBE/RUST TyreD FAILURE</option>
+                <option value="DAMAGE VALVE">DAMAGE VALVE</option>
+                <option value="O-RING PROBLEM">O-RING PROBLEM</option>
+                <option value="HEAT SEPARATION">HEAT SEPARATION</option>
+                <option value="TREAD LIFTING">TREAD LIFTING</option>
+                <option value="RUNFLAT">RUNFLAT</option>
+                <option value="BULGING">BULGING</option>
+                <option value="ROLLING/ROTASI">ROLLING/ROTASI</option>
+            </select>
+            <label>Status Tyre:</label>
+            <select name="status_tyre_removed" required>
+                <option value="">-- Pilih Status Tyre --</option>
+                <option value="SCRAP">SCRAP</option>
+                <option value="TO BE SPARE">TO BE SPARE</option>
+            </select>
+            <h3>Upload Photos (Max 3)</h3>
+            <label>Upload Photo 1:</label>
+            <input type="file" name="photo1" accept="image/*" required onchange="previewImage(this, 'preview1')" />
+            <div id="preview1" class="preview-container"></div>
+            
+            <label>Upload Photo 2:</label>
+            <input type="file" name="photo2" accept="image/*" onchange="previewImage(this, 'preview2')" />
+            <div id="preview2" class="preview-container"></div>
+            
+            <label>Upload Photo 3:</label>
+            <input type="file" name="photo3" accept="image/*" onchange="previewImage(this, 'preview3')" />
+            <div id="preview3" class="preview-container"></div>
+        </div>
+
+        <div class="form-section">
+            <h3>Installed Tyre</h3>
+            <label>Tyre Position:</label>
+            <select name="pos_installed" required>
+                <option value="">-- Pilih Tyre Position --</option>
+                <option value="POS 1">POS 1</option>
+                <option value="POS 2">POS 2</option>
+                <option value="POS 3">POS 3</option>
+                <option value="POS 4">POS 4</option>
+                <option value="POS 5">POS 5</option>
+                <option value="POS 6">POS 6</option>
+                <option value="POS 7">POS 7</option>
+                <option value="POS 8">POS 8</option>
+                <option value="POS 9">POS 9</option>
+                <option value="POS 10">POS 10</option>
+            </select>
+            <label>Serial Number Tyre:</label>
+            <input type="text" name="serial_installed" required />
+            <label>Tyre Size:</label>
+            <select name="tyre_size_installed" required>
+                <option value="">-- Pilih Tyre Size --</option>
+                <option value="10.00R20">10.00R20</option>
+                <option value="11.00R20">11.00R20</option>
+                <option value="11.00-20">11.00-20</option>
+                <option value="12.00R24">12.00R24</option>
+                <option value="12.00-24">12.00-24</option>
+                <option value="14.00R25">14.00R25</option>
+                <option value="16.00R25">16.00R25</option>
+                <option value="17.5-25">17.5-25</option>
+                <option value="23.1-26">23.1-26</option>
+                <option value="23.5-25">23.5-25</option>
+                <option value="21.00-35">21.00-35</option>
+            </select>
+            
+            <label>Brand/Manufacture:</label>
+            <select name="brand_installed" id="brand_installed" onchange="toggleInputField(this, 'custom_brand_installed')" required>
+                <option value="">-- Pilih Brand/Manufacture --</option>
+                <option value="TECHKING">TECHKING</option>
+                <option value="MAXAM">MAXAM</option>
+                <option value="BELSHINA">BELSHINA</option>
+                <option value="CHAO YANG">CHAO YANG</option>
+                <option value="HILO">HILO</option>
+                <option value="GAJAH TUNGGAL">GAJAH TUNGGAL</option>
+                <option value="ASCENDO">ASCENDO</option>
+                <option value="KUN LUN">KUN LUN</option>
+                <option value="COPARTNER">COPARTNER</option>
+                <option value="BRIDGESTONE">BRIDGESTONE</option>
+                <option value="MAXIMA">MAXIMA</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" id="custom_brand_installed" class="hidden" placeholder="Input custom brand" />
+            <label>Pattern:</label>
+            <select name="pattern_installed" id="pattern_installed" onchange="toggleInputField(this, 'custom_pattern_installed')" required>
+                <option value="">-- Pilih Pattern --</option>
+                <option value="SUPER ETOT">SUPER ETOT</option>
+                <option value="ET 919">ET 919</option>
+                <option value="MS308">MS308</option>
+                <option value="Бел-51М">Бел-51М</option>
+                <option value="TK 619">TK 619</option>
+                <option value="ETOH">ETOH</option>
+                <option value="CB716">CB716</option>
+                <option value="B01N">B01N</option>
+                <option value="GT SUPER TRACTION">GT SUPER TRACTION</option>
+                <option value="AE 803">AE 803</option>
+                <option value="KUN LUN">KUN LUN</option>
+                <option value="AR 585">AR 585</option>
+                <option value="ETFN">ETFN</option>
+                <option value="ETRF">ETRF</option>
+                <option value="CP776">CP776</option>
+                <option value="E Miller Super">E Miller Super</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" id="custom_pattern_installed" class="hidden" placeholder="Input custom pattern" />
+            <label>Status Tyre:</label>
+            <select name="status_tyre_installed" required>
+                <option value="">-- Pilih Status Tyre --</option>
+                <option value="NEW TYRE">NEW TYRE</option>
+                <option value="USED TYRE">USED TYRE</option>
+            </select>
+            <label>HM Tyre:</label>
+            <input type="number" name="hm_tyre" step="0.1" required />
+            <label>Air Pressure (Psi):</label>
+            <input type="number" name="air_pressure" step="0.1" required />
+            <label>OTD (Tread Depth):</label>
+            <input type="number" name="otd" step="0.1" required />
+            <label>RTD 1 (mm):</label>
+            <input type="number" name="rtd1_installed" step="0.1" required />
+            <label>RTD 2 (mm):</label>
+            <input type="number" name="rtd2_installed" step="0.1" required />
+            <label>TUR (Installed Tyre):</label>
+            <input type="text" name="tur_installed" readonly /> <!-- Readonly to show calculated value -->
+            
+            <!-- New Photo Upload Section for Installed Tyre -->
+            <h3>Upload Photos (Max 3) for Installed Tyre</h3>
+            <label>Upload Photo 1:</label>
+            <input type="file" name="photo_installed_1" accept="image/*" required onchange="previewImage(this, 'preview_installed_1')" />
+            <div id="preview_installed_1" class="preview-container"></div>
+            
+            <label>Upload Photo 2:</label>
+            <input type="file" name="photo_installed_2" accept="image/*" onchange="previewImage(this, 'preview_installed_2')" />
+            <div id="preview_installed_2" class="preview-container"></div>
+            
+            <label>Upload Photo 3:</label>
+            <input type="file" name="photo_installed_3" accept="image/*" onchange="previewImage(this, 'preview_installed_3')" />
+            <div id="preview_installed_3" class="preview-container"></div>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="print-button" onclick="printForm()"><i class="fas fa-print"></i> Cetak PDF</button>
+            <button type="button" class="copy-text-button" onclick="copyFormAsPlainText()"><i class="fas fa-copy"></i> Salin Teks untuk WA</button>
+            <button type="button" class="reset-button" onclick="resetForm()"><i class="fas fa-redo"></i> Reset Formulir</button>
+        </div>
+    </form>
+</body>
+</html>
